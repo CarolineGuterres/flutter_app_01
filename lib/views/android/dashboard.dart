@@ -1,4 +1,5 @@
 import 'package:flutter_app_01/views/android/loginView.dart';
+import 'package:flutter_app_01/views/android/paciente/paciente_list.dart';
 import'package:flutter/material.dart';
 
 class DashBoard extends StatelessWidget {
@@ -12,12 +13,18 @@ class DashBoard extends StatelessWidget {
         body: Column(
             children: <Widget>[
                 _msgSuperiorText(),
+            //    _imgCentral(),
+               // Image.asset('imagens/gripe.jpeg'),
                     Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                        _ItemElemento('PACIENTE', Icons.accessibility,(){
-                            debugPrint('Pacientes');
-                        }),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                            _ItemElemento('PACIENTE', Icons.accessibility,
+                              onClick: (){
+                                //debugPrint('Pacientes');                          
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder:(context) => PacienteList()
+                            ));//MaterialPagerRoute 
+                        },),//ItenElemento
                         // _ItemElemento('RESULTADO', Icons.check_circle_outline,()),
                     ],//<Widget> []
                 )//Row
@@ -26,14 +33,15 @@ class DashBoard extends StatelessWidget {
         );//Scaffold
     }
 
- /*  Widget _imgCentral(){
+Widget _imgCentral(){
         return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Image.asset('imagens/covid.jpg'),
+            child: Image.asset('imagens/teste.jpeg'),
+            //fit: BoxFit.fill,
         );//Padding
-    }*/
+}
 
-    Widget _msgSuperiorText(){
+Widget _msgSuperiorText(){
         return Container(
                     alignment:Alignment.topRight,
                     padding: const EdgeInsets.all(8.0),
@@ -42,18 +50,16 @@ class DashBoard extends StatelessWidget {
                         fontFamily:'OpenSans',
                         fontWeight: FontWeight.bold,                        
                     ),),//TextStyle, Text
-                );//Container
+        );//Container
     }
 }
 
 class _ItemElemento extends StatelessWidget {
      final String nomeBotao; 
      final IconData icone;
-     final Function onClick;
+     final Function()? onClick;
 
-   // String nomeBotao = 'Paciente';
-
-     _ItemElemento(this.nomeBotao, this.icone,this.onClick);
+     _ItemElemento(this.nomeBotao, this.icone,{@required this.onClick});
 
      Widget build(BuildContext context) {
         return  Padding(
@@ -65,9 +71,7 @@ class _ItemElemento extends StatelessWidget {
                 ), //RoudedRectangleBorder
                 elevation: 10.0,
                 child: InkWell(
-                    onTap: (){
-                       this.onClick();
-                    },
+                    onTap: this.onClick,
                         child: Container(
                         // color: Colors.green,
                             width: 150,
@@ -82,8 +86,9 @@ class _ItemElemento extends StatelessWidget {
                                         this.icone,
                                         size: 36.0,
                                     ),//Icon
-                                    Text(this.nomeBotao, style: TextStyle(
-                                        color: Colors.white, fontSize:16
+                                    Text(
+                                            this.nomeBotao, style: TextStyle(
+                                            color: Colors.white, fontSize:16
                                     ),)//TextStyle, Text
                                     ], //<Widget>[]
                             ), //Column
