@@ -2,14 +2,15 @@ import'package:flutter/material.dart';
 import'package:flutter/widgets.dart';
 //import 'package:flutter_app_01/database/paciente_dao.dart';
 import 'package:flutter_app_01/model/paciente.dart';
+import 'package:flutter_app_01/views/android/paciente/paciente_add.dart';
 
 
 class PacienteList extends StatelessWidget{
     @override
   Widget build(BuildContext context) {
 
-     // List<Paciente> _pacientes = PacienteDAO.listarPacientes;
-     // List<Paciente> _pacientes = PacienteDAO.listarPacientes;
+      //List<Paciente> _pacientes = PacienteDAO.listarPacientes;
+    // List<Paciente> _pacientes = PacienteDAO.listarPacientes;
     return Scaffold(
         appBar: AppBar(
             title: Text('Pacientes'),
@@ -29,18 +30,22 @@ class PacienteList extends StatelessWidget{
                 ),//Container
         Expanded(
             child:Container( 
-                child:ListView(
+             child:ListView(
                     children: <Widget>[
                         ItemPaciente(),
                     ],//Widget []
-                ),//ListView*/
+                ),//ListView
             ),//Container 
         ),//Expanded
     ],//<Wdiget>[]
         ),//Colunm
         floatingActionButton: FloatingActionButton(
             onPressed: (){
-                debugPrint('adicionar pacientes');
+               // Paciente p1 = Paciente(01,'Teste','teste@teste','txt123', 123);
+                //PacienteDAO.adicionar(p1);
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder:(context) => PacienteScreen()
+                ));//MaterialPagerRoute
             },
             child: Icon(Icons.add)
         ),//FloatingActionButton
@@ -64,7 +69,7 @@ class ItemPaciente extends StatelessWidget{
                             subtitle: Text('joao@iffarroupilha.edu.br',
                             style: TextStyle(fontSize: 12),
                             ),//Text
-                            trailing: Icon(Icons.adjust),
+                            trailing: _menu(),
                         ),//Listile
                         Divider(
                         color: Colors.black,
@@ -76,4 +81,28 @@ class ItemPaciente extends StatelessWidget{
             ]
         );//Column
     }
+
+
+Widget _menu(){
+    return PopupMenuButton(
+    
+    onSelected: (ItensMenuListPaciente selecionado){
+        debugPrint('Selecionado... $selecionado');   
+    },
+
+    itemBuilder: (BuildContext context) => <PopupMenuItem<ItensMenuListPaciente>>[
+        const PopupMenuItem(
+            value: ItensMenuListPaciente.editar,
+            child: Text('Editar'),
+        ),//PopupMenuItem
+        const PopupMenuItem(
+            value: ItensMenuListPaciente.novo_checklist,
+            child: Text('Novo CheckList'),
+        ),//PopupMenuItem
+    ], //<PopMenuItem<ItensMenuListPaciente>[]
+    
+    );//PopMenuButton
 }
+}
+
+enum ItensMenuListPaciente {editar,novo_checklist}
