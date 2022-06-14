@@ -12,9 +12,8 @@ class DashBoard extends StatelessWidget {
         ),//AppBar
         body: Column(
             children: <Widget>[
-                _msgSuperiorText(),
-            //    _imgCentral(),
-               // Image.asset('imagens/gripe.jpeg'),
+                 _msgSuperiorText(),
+               _imgCentral(), //método para inserir imagem
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -25,6 +24,10 @@ class DashBoard extends StatelessWidget {
                                   builder:(context) => PacienteList()
                             ));//MaterialPagerRoute 
                         },),//ItenElemento
+                        _ItemElemento('INFORMAÇÕES', Icons.accessibility,
+                              onClick: (){
+                                debugPrint('Informações');                          
+                            },),
                         // _ItemElemento('RESULTADO', Icons.check_circle_outline,()),
                     ],//<Widget> []
                 )//Row
