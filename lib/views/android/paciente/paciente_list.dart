@@ -1,61 +1,79 @@
 import'package:flutter/material.dart';
 import'package:flutter/widgets.dart';
-//import 'package:flutter_app_01/database/paciente_dao.dart';
+import 'package:flutter_app_01/database/paciente_dao.dart';
 import 'package:flutter_app_01/model/paciente.dart';
 import 'package:flutter_app_01/views/android/paciente/paciente_add.dart';
 
 
-class PacienteList extends StatelessWidget{
+class PacienteList extends StatefulWidget{
     @override
-  Widget build(BuildContext context) {
+    //classe principal
 
-      //List<Paciente> _pacientes = PacienteDAO.listarPacientes;
-    // List<Paciente> _pacientes = PacienteDAO.listarPacientes;
-    return Scaffold(
-        appBar: AppBar(
-            title: Text('Pacientes'),
-        ),// appBar
-        body: Column (
-             children: <Widget>[
-                Container(
-                    //color: Colors.red, 
-                    child: TextField(
-                        style: TextStyle(fontSize:20),
-                        decoration: InputDecoration(
-                            labelText:"Pesquisar",
-                            hintText: "Pesquisar",
-                            prefixIcon: Icon(Icons.search),
-                        ),//InputDecoration
-                    ),//TextField
-                ),//Container
-        Expanded(
-            child:Container( 
-             child:ListView(
-                    children: <Widget>[
-                        ItemPaciente(),
-                    ],//Widget []
+    _PacienteListState createState() => _PacienteListState();
+}
+  class _PacienteListState extends State<PacienteList>{
+      Widget build(BuildContext context){
+          //classe que guarda o estado
+      
+      List <Paciente> _pacientes = PacienteDAO.listarPacientes;
+        
+        return Scaffold(
+            appBar: AppBar(
+                title: Text('Pacientes'),
+            ),// appBar
+            body: Column (
+                children: <Widget>[
+                    Container(
+                        //color: Colors.red, 
+                        child: TextField(
+                            style: TextStyle(fontSize:20),
+                            decoration: InputDecoration(
+                                labelText:"Pesquisar",
+                                hintText: "Pesquisar",
+                                prefixIcon: Icon(Icons.search),
+                            ),//InputDecoration
+                        ),//TextField
+                    ),//Container
+            Expanded(
+                child:Container( 
+                child:ListView.builder(
+                    itemCount: _pacientes.length,
+                    itemBuilder: (context, index){
+                        final Paciente p = _pacientes[index];
+                        return ItemPaciente(p);
+                    }
                 ),//ListView
-            ),//Container 
-        ),//Expanded
-    ],//<Wdiget>[]
-        ),//Colunm
-        floatingActionButton: FloatingActionButton(
-            onPressed: (){
-               // Paciente p1 = Paciente(01,'Teste','teste@teste','txt123', 123);
-                //PacienteDAO.adicionar(p1);
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder:(context) => PacienteScreen()
-                ));//MaterialPagerRoute
-            },
-            child: Icon(Icons.add)
-        ),//FloatingActionButton
-    );//Scafoold
-  }
+                    ),//Container 
+                ),//Expanded
+            ],//<Wdiget>[]
+            ),//Colunm
+            floatingActionButton: FloatingActionButton(
+                onPressed: (){
+                  /*  Paciente p1 = Paciente(01,'Teste','teste@teste','txt123');
+                    PacienteDAO.adicionar(p1);*/
+                   
+                  Navigator.of(context).push(MaterialPageRoute(
+                        builder:(context) => PacienteScreen()
+                    )).then((value) //permite adicionar na lista ao clicar no salvar
+                    { //MaterialPage   
+                        setState((){ //atualiza o estado
+                            debugPrint('teste');
+                     });//setState
+                 });
+                },//onPressed
 
+                child: Icon(Icons.add)
+            ),//FloatingActionButton
+        );//Scafoold
+  }
 }
 
 class ItemPaciente extends StatelessWidget{
-    
+
+   final Paciente _paciente;
+
+   ItemPaciente(this._paciente);
+
     Widget build (BuildContext context){
         return Column(
             children: <Widget>[
@@ -63,10 +81,10 @@ class ItemPaciente extends StatelessWidget{
                             leading:CircleAvatar(
                             // backgroundImage: AssetImage('imagens/avatar.jpeg'), 
                             ),//CircleAvatar
-                            title:Text('João',
+                            title:Text(this._paciente.nome,
                             style: TextStyle(fontSize: 24),
                             ),//Text
-                            subtitle: Text('joao@iffarroupilha.edu.br',
+                            subtitle: Text(this._paciente.email,
                             style: TextStyle(fontSize: 12),
                             ),//Text
                             trailing: _menu(),
