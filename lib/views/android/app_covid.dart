@@ -1,5 +1,6 @@
 //import 'dart.io';
 import 'package:flutter_app_01/views/android/loginView.dart';
+import 'package:flutter_app_01/views/android/dashboard.dart';
 import'package:flutter/material.dart';
 
 class AppCovid extends StatelessWidget {
@@ -7,7 +8,7 @@ class AppCovid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-     home: Login(),
+     home: DashBoard(),
     ); // MaterialApp
   }
 }
