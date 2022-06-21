@@ -1,13 +1,11 @@
 class Paciente{
 
-    int _id; //urdeline transforma variável em privado
+    int _id; //undeline transforma variável em privado
     String _nome;
     String _email;
-    String _cartaoSus;
-   // int _idade;
-    String _senha;
+    String _cartao;
 
-    Paciente(this._id, this._nome, this._email, this._cartaoSus, this._senha); //método construtor 
+    Paciente(this._id, this._nome, this._email, this._cartao,); //método construtor 
     
     int get id{
         return this._id;
@@ -21,15 +19,8 @@ class Paciente{
         return this._email;
     }
 
-    String get cartaoSus{
-        return this._cartaoSus;
+    String get cartao{
+        return this._cartao;
     }
 
-    /*int get _idade{
-        return this._idade;
-    }*/
-
-    String get senha{
-        return this._senha;
-    }
 }
