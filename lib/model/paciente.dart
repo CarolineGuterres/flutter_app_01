@@ -7,6 +7,15 @@ class Paciente{
 
     Paciente(this._id, this._nome, this._email, this._cartao,); //método construtor 
     
+    Map<String, dynamic> toMap(){
+        return{
+            'nome' : _nome,
+            'email' : _email,
+            'cartao' : _cartao,
+        };
+    }
+
+
     int get id{
         return this._id;
     }
