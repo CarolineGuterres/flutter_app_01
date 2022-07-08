@@ -1,13 +1,13 @@
 import'package:flutter/material.dart';
 import 'package:flutter_app_01/model/paciente.dart';
 import 'package:flutter_app_01/database/paciente_dao.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PacienteScreen extends StatelessWidget{
   
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _cartaoController = TextEditingController();
-
 
     @override
   Widget build(BuildContext context) {
@@ -92,6 +92,7 @@ Widget _fotoPaciente(BuildContext context){
         child: Text('Câmera'),
         onPressed: (){
           debugPrint('Usuário escolheu câmera');
+        //  _obterImagem();
           Navigator.of(context).pop();
         },
     ),//FlatButton
@@ -99,6 +100,7 @@ Widget _fotoPaciente(BuildContext context){
         child: Text('Galeria'),
         onPressed: (){
           debugPrint('Usuário escolheu galeria');
+       //   _obterImagem();
           Navigator.of(context).pop();
         },
     ),//FlatButton
@@ -113,4 +115,15 @@ Widget _fotoPaciente(BuildContext context){
 
 }
 
-}  
+ /* String _fotoPerfil = '';*
+ _obterImagem() async{ //carregando serviço de tirar foto
+   // final picker = ImagePicker();
+    File image = await picker.getImage(source: ImageSource.gallery);
+    //File image =await ImagePicker().getImage(source: ImageSource.gallery).then((pickedFile) => pickedFile.path);
+    //debugPrint('image ->'+image.path);
+   // this._fotoPerfil = image.path;
+   
+ }*/
+
+
+  }

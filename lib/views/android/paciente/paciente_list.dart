@@ -3,6 +3,7 @@ import'package:flutter/widgets.dart';
 import 'package:flutter_app_01/database/paciente_dao.dart';
 import 'package:flutter_app_01/model/paciente.dart';
 import 'package:flutter_app_01/views/android/paciente/paciente_add.dart';
+import 'package:flutter_app_01/views/android/checklist/checklist_sintomas.dart';
 
 
 class PacienteList extends StatefulWidget{
@@ -40,9 +41,16 @@ class PacienteList extends StatefulWidget{
                     itemCount: _pacientes.length,
                     itemBuilder: (context, index){
                         final Paciente p = _pacientes[index];
-                        return ItemPaciente(p);
-                    }
-                ),//ListView
+                        return ItemPaciente(p, onClick: (){
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder:(context)=> PacienteScreen())
+                            ).then((value){
+                                setState((){
+                                    debugPrint('Voltou editar');
+                                });
+                            });
+                        },);//ItemPaciente
+                    }),//ListView
                     ),//Container 
                 ),//Expanded
             ],//<Wdiget>[]
@@ -71,13 +79,15 @@ class PacienteList extends StatefulWidget{
 class ItemPaciente extends StatelessWidget{
 
    final Paciente _paciente;
+   final Function()? onClick; //adicionar ação de clique na linha de cadastro ao editar, pois ao retornar dessa opção precisa chamar o setState
 
-   ItemPaciente(this._paciente);
+   ItemPaciente(this._paciente,{@required this.onClick}); //método construtor
 
     Widget build (BuildContext context){
         return Column(
             children: <Widget>[
-                ListTile(
+                ListTile( //cada item da lista
+                     onTap: this.onClick, //executa a ação ao selecionar
                             leading:CircleAvatar(
                             // backgroundImage: AssetImage('imagens/avatar.jpeg'), 
                             ),//CircleAvatar
@@ -87,7 +97,7 @@ class ItemPaciente extends StatelessWidget{
                             subtitle: Text(this._paciente.email,
                             style: TextStyle(fontSize: 12),
                             ),//Text
-                            trailing: _menu(),
+                            trailing: _menu(context), // é necessário passar o contexto
                         ),//Listile
                         Divider(
                         color: Colors.black,
@@ -101,26 +111,25 @@ class ItemPaciente extends StatelessWidget{
     }
 
 
-Widget _menu(){
+Widget _menu(BuildContext context){ //necessário receber o contexto
     return PopupMenuButton(
     
     onSelected: (ItensMenuListPaciente selecionado){
-        debugPrint('Selecionado... $selecionado');   
+       if(selecionado == ItensMenuListPaciente.novo_checklist){
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CheckListSintomas()
+        ));//MaterialPageRoute
+       }  
     },
 
     itemBuilder: (BuildContext context) => <PopupMenuItem<ItensMenuListPaciente>>[
         const PopupMenuItem(
-            value: ItensMenuListPaciente.editar,
-            child: Text('Editar'),
-        ),//PopupMenuItem
-        const PopupMenuItem(
             value: ItensMenuListPaciente.novo_checklist,
             child: Text('Novo CheckList'),
-        ),//PopupMenuItem
-    ], //<PopMenuItem<ItensMenuListPaciente>[]
-    
+        )//PopupMenuItem
+        ], //<PopMenuItem<ItensMenuListPaciente>[]
     );//PopMenuButton
 }
 }
 
-enum ItensMenuListPaciente {editar,novo_checklist}
+enum ItensMenuListPaciente {resultado,novo_checklist}
